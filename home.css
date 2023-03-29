@@ -1,0 +1,185 @@
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.top-bar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+}
+table {
+  flex: 1;
+  border-collapse: collapse;
+  margin-top: 100px;
+
+}
+td {
+  width: 20px;
+  height: 20px;
+  border:1px solid gray;
+  border-radius: 1px;
+  
+}
+.middlePage{
+  display: flex;
+  justify-content: space-evenly;
+  align-items:center;
+
+}
+.ending-cell {
+  background-color: red;
+}
+.starting-cell {
+  background-color: green;
+}
+.obstacle {
+  background-color: black;
+}
+.top-text {
+  font-size: 40px;
+}
+.algo-dropdown {
+  font-size: 40px;
+  color: black;
+  background-color: aqua;
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+  transition: all 1s;
+}
+.algo-dropdown:hover{
+  background-color: red;
+}
+.algo-dropdown:active {
+  background-color: pink;
+}
+.seen {
+  background-color: blue;
+}
+.arrived {
+  background-color: green;
+}
+.reset-cell {
+  background-color: white;
+}
+.algo-data {
+  font-size: 24px;
+  color:blue;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  flex: 1;
+}
+.reset-button {
+  background-color: rgb(0, 44, 0);
+  font-size: 40px;
+  color: gray;
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+}
+.dfs-button{
+  background-color: rgb(233, 236, 12);
+  font-size: 40px;
+  color: gray;
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+}
+.bfs-button{
+  background-color: rgb(5, 249, 5);
+  font-size: 40px;
+  color: gray;
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+}
+.astar-button{
+  background-color: rgb(180, 8, 8);
+  font-size: 40px;
+  color: gray;
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+}
+.new-points{
+  position: relative;
+  background-color: rgb(16, 86, 207);
+  font-size: 40px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+
+}
+.new-points-dropdown{
+  display: none;
+  flex-direction:column;
+  position: absolute;
+  top: 60%;
+}
+.path{
+  background-color: yellow;
+}
+.new-start-points{
+  position: absolute;
+  background-color: rgb(23, 197, 0);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+  top: -40px;
+}
+.new-end-points{
+  background-color: rgb(219, 0, 0);
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+
+}
+.start-input-container{
+  display: none;
+  position: absolute;
+  left: 100%;
+  top:-40px;
+}
+.new-start-points-button{
+  background-color: rgb(1, 119, 21);
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+}
+.input {
+  border-radius: 2px solid black;
+  border-radius: 2px;
+}
+.new-end-points-button{
+  background-color: rgb(155, 2, 12);
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+}
+.end-input-container {
+  display: none;
+  position: absolute;
+  left:100%;
+}
