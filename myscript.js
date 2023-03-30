@@ -7,6 +7,7 @@ import {
   aStar,
   isValidSquare,
   resetGridLeaveObstacles,
+  dijkstra,
 } from "./algorithms.js";
 // Define the size of the grid
 const numRows = 30;
@@ -28,6 +29,7 @@ const resetButton = document.querySelector(".reset-button");
 const dfsButton = document.querySelector(".dfs-button");
 const bfsButton = document.querySelector(".bfs-button");
 const astarButton = document.querySelector(".astar-button");
+const dijkstraButton = document.querySelector(".dijkstra-button");
 const startPoints = document.querySelector(".new-start-points");
 const newPoints = document.querySelector(".new-points");
 const newStartButton = document.querySelector(".new-start-button");
@@ -50,6 +52,10 @@ bfsButton.addEventListener("click", () => {
 astarButton.addEventListener("click", () => {
   resetGridLeaveObstacles(startRow, startCol, endRow, endCol);
   aStar(startRow, startCol, endRow, endCol, 0);
+});
+dijkstraButton.addEventListener("click", () => {
+  resetGridLeaveObstacles(startRow, startCol, endRow, endCol);
+  dijkstra(startRow, startCol, endRow, endCol, 0);
 });
 newStartButton.addEventListener("click", () => {
   const xInput = document.querySelector(".new-starting-x");
@@ -119,6 +125,13 @@ function handleMouseMove(event) {
     const target = event.target;
     console.log(target);
     if (target.tagName == "TD") {
+      const classList = target.classList;
+      for (let i = 0; i < classList.length; i++) {
+        if (classList[i] == "starting-cell" || classList[i] == "ending-cell") {
+          return false; //if the cell is starting or ending, can't be an obstacle!
+        }
+      }
+      target.classList = [];
       target.classList.add("obstacle");
     }
   }

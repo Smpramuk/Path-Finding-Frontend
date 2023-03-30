@@ -10,45 +10,51 @@
   </head>
   <body>
     <div class = "top-bar">
-      <p class="top-text">Welcome!</p>
-      <div class="newPointsContainer">
+      <div class="new-points-container">
       <button class="new-points">New Points</button>
-      <ul class="new-points-dropdown">
-        <button class="new-start-points">
-        New start point (0 indexed).
-        </button>
-        <div class="start-input-container">
-          <div class="start-inputs">
-            <input class="new-starting-x" type="number" placeholder="New X Coordinate" >
-            <input class="new-starting-y" type="number" placeholder="New Y Coordinate">
-          </div>
-          <div class="new-start-button">
-            <button class="new-start-points-button">
-              Enter
-            </button>
-          </div>
-        </div>
-        <button class="new-end-points">
-        New target point (0 indexed).
-        </button>
-        <div class="end-input-container">
-          <div class="end-inputs">
-            <input class="new-end-x" type="number" placeholder="New X Coordinate" >
-            <input class="new-end-y" type="number" placeholder="New Y Coordinate">
-          </div>
-          <div class="new-end-button">
-            <button class="new-end-points-button">
-              Enter
-            </button>
+      <div class="new-points-dropdown">
+        <div class="new-start-points-container">
+          <button class="new-start-points">
+          New start point (0 indexed).
+          </button>
+          <div class="start-input-container">
+            <div class="start-inputs">
+              <input class="new-starting-x" type="number" placeholder="New X Coordinate" >
+              <input class="new-starting-y" type="number" placeholder="New Y Coordinate">
+            </div>
+            <div class="new-start-button">
+              <button class="new-start-points-button">
+                Enter
+              </button>
+            </div>
           </div>
         </div>
-      </ul>
-    </div>
+        <div class="new-end-points-container">
+          <button class="new-end-points">
+          New target point (0 indexed).
+          </button>
+          <div class="end-input-container">
+            <div class="end-inputs">
+              <input class="new-end-x" type="number" placeholder="New X Coordinate" >
+              <input class="new-end-y" type="number" placeholder="New Y Coordinate">
+            </div>
+            <div class="new-end-button">
+              <button class="new-end-points-button">
+                Enter
+              </button>
+            </div>
+        </div>
+      </div>
+      </div>
+    </div class="buttons">
       <button class = 'algo-dropdown'>Choose your algorithm wisely!</button>
       <button class="dfs-button">DFS</button>
       <button class="bfs-button">BFS</button>
-      <button class="astar-button">AStar</button>
-      <button class="reset-button">Reset Grid</button>
+      <button class="astar-button">A*</button>
+      <button class="dijkstra-button">Dijkstra</button>
+      <div class="reset-options">
+        <button class="reset-button">Reset Grid</button>
+      </div>
     </div>
     <div class="middlePage">
       <div class = 'grid'>

@@ -83,7 +83,7 @@ export function dfs(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 10);
+    }, counter * 2);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -95,7 +95,7 @@ export function dfs(
             `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
           );
           cell.classList.add("path");
-        }, (counter + i + 1) * 10);
+        }, (counter + i + 1) * 2);
       }
       break;
     }
@@ -184,7 +184,7 @@ export function bfs(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 10);
+    }, counter * 2);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -196,7 +196,7 @@ export function bfs(
             `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
           );
           cell.classList.add("path");
-        }, (counter + i + 1) * 10);
+        }, (counter + i + 1) * 2);
       }
       break;
     }
@@ -219,7 +219,7 @@ export function bfs(
   }
   const dataDiv = document.querySelector(".algo-data");
   dataDiv.innerText =
-    "DFS DATA:\nThis algorithm took a total of: " +
+    "BFS DATA:\nThis algorithm took a total of: " +
     counter +
     " iterations to get from (" +
     sourceRow +
@@ -293,7 +293,7 @@ export function aStar(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 10);
+    }, counter * 5);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -305,7 +305,7 @@ export function aStar(
             `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
           );
           cell.classList.add("path");
-        }, (counter + i + 1) * 10);
+        }, (counter + i + 1) * 5);
       }
       break;
     }
@@ -332,7 +332,112 @@ export function aStar(
   }
   const dataDiv = document.querySelector(".algo-data");
   dataDiv.innerText =
-    "DFS DATA:\nThis algorithm took a total of: " +
+    "A* DATA:\nThis algorithm took a total of: " +
+    counter +
+    " iterations to get from (" +
+    sourceRow +
+    "," +
+    sourceCol +
+    ") to (" +
+    destRow +
+    "," +
+    destCol +
+    ").\n It had a path length of: " +
+    path.length +
+    "\nThe optimal path length is: " +
+    optimalPathLength(sourceRow, sourceCol, destRow, destCol);
+}
+export function dijkstra(
+  sourceRow = startRow,
+  sourceCol = startCol,
+  destRow = endRow,
+  destCol = endCol,
+  counter
+) {
+  const nodes = new PriorityQueue(); //[[sourceRow, sourceCol]]; //keep track of nodes by their x, y coordinate pair
+  const seen = new Set();
+  const parentMap = {};
+  parentMap[`${sourceRow},${sourceCol}`] = null;
+  nodes.enqueue(
+    [sourceRow, sourceCol],
+    getCostSoFar(parentMap, [sourceRow, sourceCol]) +
+      getHeuristic([sourceRow, sourceCol], [destRow, destCol])
+  );
+  while (!nodes.isEmpty()) {
+    // while there are still nodes, check if we are at the final node
+    const curNode = nodes.dequeue();
+    const x = curNode[0];
+    const y = curNode[1];
+    const curNodeHash = hashCode(x, y);
+    if (seen.has(curNodeHash)) {
+      continue;
+      // if we've already seen the node, or it's not on the grid go to the next node
+    }
+    if (!isValidSquare(x, y)) {
+      if (!seen.has(curNodeHash)) {
+        seen.add(curNodeHash);
+      }
+      continue;
+    }
+    counter++;
+    seen.add(curNodeHash);
+    const cell = document.querySelector(
+      `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
+    );
+    if (x === sourceRow && y === sourceCol) {
+      const neighbors = getAllNeighbors(x, y);
+      neighbors.forEach((element) => {
+        if (
+          isValidSquare(element[0], element[1]) &&
+          !seen.has(hashCode(element[0], element[1]))
+        ) {
+          nodes.enqueue(element, getCostSoFar(parentMap, element));
+          parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        }
+      });
+      continue;
+    }
+    setTimeout(() => {
+      cell.classList.add("seen");
+      if (x === destRow && y == destCol) {
+        cell.classList.add("arrived");
+      }
+    }, counter * 5);
+    if (x === destRow && y === destCol) {
+      console.log("ARRIVED!");
+      var path = createPath(parentMap, [x, y]);
+      for (let i = 0; i < path.length; i++) {
+        setTimeout(() => {
+          const x = path[i][0];
+          const y = path[i][1];
+          const cell = document.querySelector(
+            `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
+          );
+          cell.classList.add("path");
+        }, (counter + i + 1) * 5);
+      }
+      break;
+    }
+    // enqueue every neighboring node
+    const neighbors = getAllNeighbors(x, y);
+    neighbors.forEach((element) => {
+      if (
+        isValidSquare(element[0], element[1]) &&
+        !seen.has(hashCode(element[0], element[1]))
+      ) {
+        nodes.enqueue(element, getCostSoFar(parentMap, element));
+        parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+      }
+    });
+  }
+  if (nodes.isEmpty()) {
+    const dataDiv = document.querySelector(".algo-data");
+    dataDiv.innerText = "No Path from astar!";
+    return;
+  }
+  const dataDiv = document.querySelector(".algo-data");
+  dataDiv.innerText =
+    "Dijkstra DATA:\nThis algorithm took a total of: " +
     counter +
     " iterations to get from (" +
     sourceRow +
@@ -512,6 +617,7 @@ function getHeuristic(curPoint, targetPoint) {
   const deltaX = Math.abs(curX - targetX);
   const deltaY = Math.abs(curY - targetY);
   return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  //return optimalPathLength(curX, curY, targetX, targetY);
   // Distance formula for heuristic
 }
 function optimalPathLength(
@@ -530,6 +636,7 @@ function optimalPathLength(
     const x = curNode[0];
     const y = curNode[1];
     const curNodeHash = hashCode(x, y);
+    var path;
     if (seen.has(curNodeHash)) {
       continue;
       // if we've already seen the node, or it's not on the grid go to the next node
@@ -555,7 +662,7 @@ function optimalPathLength(
       continue;
     }
     if (x === destRow && y === destCol) {
-      var path = createPath(parentMap, [x, y]);
+      path = createPath(parentMap, [x, y]);
       break;
     }
     // enqueue every neighboring node
@@ -570,5 +677,5 @@ function optimalPathLength(
       }
     });
   }
-  return path.length;
+  return path ? path.length : 0;
 }

@@ -109,6 +109,20 @@ td {
   border-width: 0px;
   cursor: pointer;
 }
+.dijkstra-button{
+  background-color: rgb(14, 161, 252);
+  font-size: 40px;
+  color: gray;
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+}
+.new-points-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
 .new-points{
   position: relative;
   background-color: rgb(16, 86, 207);
@@ -124,13 +138,20 @@ td {
   display: none;
   flex-direction:column;
   position: absolute;
-  top: 60%;
+  /* top: 60%; */
 }
 .path{
   background-color: yellow;
 }
+.new-start-points-container{
+  position:relative;
+  display:flex;
+}
+.new-end-points-container{
+  position: relative;
+  display: flex;
+}
 .new-start-points{
-  position: absolute;
   background-color: rgb(23, 197, 0);
   font-size: 12px;
   color: rgb(255, 255, 255);
@@ -138,7 +159,9 @@ td {
   border-color:blue;
   border-width: 0px;
   cursor: pointer;
-  top: -40px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
 }
 .new-end-points{
   background-color: rgb(219, 0, 0);
@@ -148,13 +171,13 @@ td {
   border-color:blue;
   border-width: 0px;
   cursor: pointer;
+  top: 30px;
 
 }
 .start-input-container{
   display: none;
   position: absolute;
-  left: 100%;
-  top:-40px;
+  left:100%;
 }
 .new-start-points-button{
   background-color: rgb(1, 119, 21);
@@ -165,9 +188,23 @@ td {
   border-width: 0px;
   cursor: pointer;
 }
+.new-end-x,.new-end-y {
+  background-color: coral;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.new-starting-x,.new-starting-y {
+  background-color: chartreuse;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+::placeholder {
+  color: black;
+  font: bold;
+}
 .input {
-  border-radius: 2px solid black;
-  border-radius: 2px;
+  border: 10px solid rgb(244, 11, 11);
+  border-radius: 10px;
 }
 .new-end-points-button{
   background-color: rgb(155, 2, 12);
@@ -182,4 +219,9 @@ td {
   display: none;
   position: absolute;
   left:100%;
+  top:5px;
+}
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
 }
