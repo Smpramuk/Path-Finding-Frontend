@@ -81,7 +81,7 @@ export function dfs(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 2);
+    }, counter * 2 + 800);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -91,7 +91,7 @@ export function dfs(
           const y = path[i][1];
           const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
-        }, (counter + i + 1) * 2);
+        }, (counter + i + 1) * 2 + 800);
       }
       break;
     }
@@ -177,7 +177,7 @@ export function bfs(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 5);
+    }, counter * 5 + 800);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -187,7 +187,7 @@ export function bfs(
           const y = path[i][1];
           const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
-        }, (counter + i + 1) * 5);
+        }, (counter + i + 1) * 5 + 800);
       }
       break;
     }
@@ -282,7 +282,7 @@ export function aStar(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 50);
+    }, counter * 5 + 800);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -292,7 +292,7 @@ export function aStar(
           const y = path[i][1];
           const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
-        }, (counter + i + 1) * 50);
+        }, (counter + i + 1) * 5 + 800);
       }
       break;
     }
@@ -392,7 +392,7 @@ export function dijkstra(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 2);
+    }, counter * 2 + 1100);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -402,7 +402,7 @@ export function dijkstra(
           const y = path[i][1];
           const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
-        }, (counter + i + 1) * 2);
+        }, (counter + i + 1) * 2 + 1100);
       }
       break;
     }

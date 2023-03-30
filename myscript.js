@@ -168,7 +168,7 @@ function handleMouseMoveObstacle(event) {
 }
 addWeightedNodesButton.addEventListener("click", () => {
   const table = document.getElementById("graph");
-  document.getElementById("obstacles-text").innerText =
+  document.getElementById("obstacle-text").innerText =
     "Click and drag to create weighted nodes!";
   table.removeEventListener("mousemove", handleMouseMoveObstacle);
   table.removeEventListener("mousemove", handleMouseMoveWeight);
@@ -176,7 +176,7 @@ addWeightedNodesButton.addEventListener("click", () => {
 });
 addWallsButton.addEventListener("click", () => {
   const table = document.getElementById("graph");
-  document.getElementById("obstacles-text").innerText =
+  document.getElementById("obstacle-text").innerText =
     "Click and drag to create walls!";
   table.removeEventListener("mousemove", handleMouseMoveObstacle);
   table.removeEventListener("mousemove", handleMouseMoveWeight);
