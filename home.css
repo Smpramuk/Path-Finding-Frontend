@@ -21,12 +21,14 @@ td {
   height: 20px;
   border:1px solid gray;
   border-radius: 1px;
+  user-select: none;
   
 }
 .middlePage{
   display: flex;
   justify-content: space-evenly;
   align-items:center;
+  margin-top: 50px;
 
 }
 .ending-cell {
@@ -38,11 +40,16 @@ td {
 .obstacle {
   background-color: black;
 }
+.weighted-cell {
+  background-color: blueviolet;
+  font-weight: bold;
+  color: black;
+}
 .top-text {
   font-size: 40px;
 }
-.algo-dropdown {
-  font-size: 40px;
+.weighted-button{
+  font-size: 30px;
   color: black;
   background-color: aqua;
   border-radius: 5px;
@@ -51,11 +58,15 @@ td {
   cursor: pointer;
   transition: all 1s;
 }
-.algo-dropdown:hover{
-  background-color: red;
-}
-.algo-dropdown:active {
-  background-color: pink;
+.obstacle-button {
+  font-size: 30px;
+  color: black;
+  background-color: aqua;
+  border-radius: 5px;
+  border-color:blue;
+  border-width: 0px;
+  cursor: pointer;
+  transition: all 1s;
 }
 .seen {
   background-color: blue;
@@ -67,16 +78,18 @@ td {
   background-color: white;
 }
 .algo-data {
+  margin-left: 20px;
   font-size: 24px;
-  color:blue;
+  color:black;
+  font-weight: bold;
   font-family: 'Courier New', Courier, monospace;
   display: flex;
   flex: 1;
 }
 .reset-button {
   background-color: rgb(0, 44, 0);
-  font-size: 40px;
-  color: gray;
+  font-size: 30px;
+  color: rgb(255, 255, 255);
   border-radius: 5px;
   border-color:blue;
   border-width: 0px;
@@ -84,8 +97,8 @@ td {
 }
 .dfs-button{
   background-color: rgb(233, 236, 12);
-  font-size: 40px;
-  color: gray;
+  font-size: 30px;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   border-color:blue;
   border-width: 0px;
@@ -93,8 +106,8 @@ td {
 }
 .bfs-button{
   background-color: rgb(5, 249, 5);
-  font-size: 40px;
-  color: gray;
+  font-size: 30px;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   border-color:blue;
   border-width: 0px;
@@ -102,8 +115,8 @@ td {
 }
 .astar-button{
   background-color: rgb(180, 8, 8);
-  font-size: 40px;
-  color: gray;
+  font-size: 30px;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   border-color:blue;
   border-width: 0px;
@@ -111,8 +124,8 @@ td {
 }
 .dijkstra-button{
   background-color: rgb(14, 161, 252);
-  font-size: 40px;
-  color: gray;
+  font-size: 30px;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   border-color:blue;
   border-width: 0px;
@@ -126,7 +139,7 @@ td {
 .new-points{
   position: relative;
   background-color: rgb(16, 86, 207);
-  font-size: 40px;
+  font-size: 30px;
   color: rgb(255, 255, 255);
   border-radius: 5px;
   border-color:blue;
@@ -154,7 +167,8 @@ td {
 .new-start-points{
   background-color: rgb(23, 197, 0);
   font-size: 12px;
-  color: rgb(255, 255, 255);
+  font-weight: 600;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   border-color:blue;
   border-width: 0px;
@@ -166,12 +180,12 @@ td {
 .new-end-points{
   background-color: rgb(219, 0, 0);
   font-size: 12px;
-  color: rgb(255, 255, 255);
+  font-weight: 600;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   border-color:blue;
   border-width: 0px;
   cursor: pointer;
-  top: 30px;
 
 }
 .start-input-container{
@@ -180,7 +194,7 @@ td {
   left:100%;
 }
 .new-start-points-button{
-  background-color: rgb(1, 119, 21);
+  background-color: rgb(0, 0, 0);
   font-size: 20px;
   color: rgb(255, 255, 255);
   border-radius: 5px;
@@ -207,7 +221,7 @@ td {
   border-radius: 10px;
 }
 .new-end-points-button{
-  background-color: rgb(155, 2, 12);
+  background-color: rgb(0, 0, 0);
   font-size: 20px;
   color: rgb(255, 255, 255);
   border-radius: 5px;
@@ -218,10 +232,47 @@ td {
 .end-input-container {
   display: none;
   position: absolute;
+  margin-top: -8px;
   left:100%;
-  top:5px;
 }
 .buttons {
   display: flex;
   justify-content: space-evenly;
+}
+.reset-options-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.reset-options {
+  margin-top: 10px;
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top:100%;
+  left:20%;
+}
+.remove-obstacles-option {
+  margin-top: -10px;
+}
+.keep-obstacles-option {
+  margin-top: -12px;
+}
+.reset-button-remove-obstacles, .reset-button-keep-obstacles {
+  background-color: rgb(0, 0, 0);
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  border-radius: 3px;
+  border-color:rgb(0, 95, 2);
+  border-width: 2px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.walls-text {
+  text-align: center;
+  margin-bottom: -100px;
+  font-size: 25px;
+  font-weight: bold;
+  color: black;
 }

@@ -16,29 +16,43 @@ var startRow = 0;
 var startCol = 0;
 var endRow = 29;
 var endCol = 29;
-// Maybe I'll use a node at some point?, could create a two dimesional matrix full of them in the loop below
-// class Node {
-//   constructor(x, y) {
-//     this.x = x;
-//     this.y = y;
-//   }
-// }
-// Loop through each row and cell to create the table
 
-const resetButton = document.querySelector(".reset-button");
-const dfsButton = document.querySelector(".dfs-button");
-const bfsButton = document.querySelector(".bfs-button");
-const astarButton = document.querySelector(".astar-button");
-const dijkstraButton = document.querySelector(".dijkstra-button");
-const startPoints = document.querySelector(".new-start-points");
-const newPoints = document.querySelector(".new-points");
-const newStartButton = document.querySelector(".new-start-button");
-const newEndButton = document.querySelector(".new-end-button");
-const table = document.querySelector(".graph");
+const resetButton = document.getElementById("reset-button");
+const dfsButton = document.getElementById("dfs-button");
+const bfsButton = document.getElementById("bfs-button");
+const astarButton = document.getElementById("astar-button");
+const dijkstraButton = document.getElementById("dijkstra-button");
+const startPoints = document.getElementById("new-start-points");
+const newPoints = document.getElementById("new-points");
+const newStartButton = document.getElementById("new-start-button");
+const newEndButton = document.getElementById("new-end-button");
+const table = document.getElementById("graph");
+const endPoints = document.getElementById("new-end-points");
+const removeObstaclesButton = document.getElementById(
+  "reset-button-remove-obstacles"
+);
+const keepObstaclesButton = document.getElementById(
+  "reset-button-keep-obstacles"
+);
+const addWeightedNodesButton = document.getElementById("weighted-button");
+const addWallsButton = document.getElementById("obstacle-button");
 let isMouseDown = false;
-const endPoints = document.querySelector(".new-end-points");
 resetButton.addEventListener("click", () => {
+  const resetContainer = document.getElementById("reset-options");
+  if (
+    resetContainer.style.display === "none" ||
+    resetContainer.style.display === ""
+  ) {
+    resetContainer.style.display = "flex";
+  } else {
+    resetContainer.style.display = "none";
+  }
+});
+removeObstaclesButton.addEventListener("click", () => {
   resetGrid(startRow, startCol, endRow, endCol);
+});
+keepObstaclesButton.addEventListener("click", () => {
+  resetGridLeaveObstacles(startRow, startCol, endRow, endCol);
 });
 dfsButton.addEventListener("click", () => {
   resetGridLeaveObstacles(startRow, startCol, endRow, endCol);
@@ -58,8 +72,8 @@ dijkstraButton.addEventListener("click", () => {
   dijkstra(startRow, startCol, endRow, endCol, 0);
 });
 newStartButton.addEventListener("click", () => {
-  const xInput = document.querySelector(".new-starting-x");
-  const yInput = document.querySelector(".new-starting-y");
+  const xInput = document.getElementById("new-starting-x");
+  const yInput = document.getElementById("new-starting-y");
   const newX = parseInt(yInput.value);
   const newY = parseInt(xInput.value);
   if (!isValidSquare(newX, newY)) {
@@ -74,8 +88,8 @@ newStartButton.addEventListener("click", () => {
   }
 });
 newEndButton.addEventListener("click", () => {
-  const xInput = document.querySelector(".new-end-x");
-  const yInput = document.querySelector(".new-end-y");
+  const xInput = document.getElementById("new-end-x");
+  const yInput = document.getElementById("new-end-y");
   const newX = parseInt(yInput.value);
   const newY = parseInt(xInput.value);
   if (!isValidSquare(newX, newY)) {
@@ -91,7 +105,7 @@ newEndButton.addEventListener("click", () => {
 });
 startPoints.addEventListener("click", () => {
   // Toggle the display property of the input container
-  const inputContainer = document.querySelector(".start-input-container");
+  const inputContainer = document.getElementById("start-input-container");
   if (
     inputContainer.style.display === "none" ||
     inputContainer.style.display === ""
@@ -103,7 +117,7 @@ startPoints.addEventListener("click", () => {
 });
 endPoints.addEventListener("click", () => {
   // Toggle the display property of the input container
-  const inputContainer = document.querySelector(".end-input-container");
+  const inputContainer = document.getElementById("end-input-container");
   if (
     inputContainer.style.display === "none" ||
     inputContainer.style.display === ""
@@ -114,16 +128,32 @@ endPoints.addEventListener("click", () => {
   }
 });
 newPoints.addEventListener("click", toggleDropdown);
-table.addEventListener("mousedown", handleMouseDown);
-table.addEventListener("mousemove", handleMouseMove);
-table.addEventListener("mouseup", handleMouseUp);
-function handleMouseDown() {
+table.addEventListener("mousedown", () => {
   isMouseDown = true;
-}
-function handleMouseMove(event) {
+});
+table.addEventListener("mousemove", handleMouseMoveObstacle);
+table.addEventListener("mouseup", () => {
+  isMouseDown = false;
+});
+function handleMouseMoveWeight(event) {
   if (isMouseDown) {
     const target = event.target;
-    console.log(target);
+    if (target.tagName == "TD") {
+      target.innerText = "W";
+      const classList = target.classList;
+      for (let i = 0; i < classList.length; i++) {
+        if (classList[i] == "starting-cell" || classList[i] == "ending-cell") {
+          return false; //if the cell is starting or ending, can't be an obstacle!
+        }
+      }
+      target.classList = [];
+      target.classList.add("weighted-cell");
+    }
+  }
+}
+function handleMouseMoveObstacle(event) {
+  if (isMouseDown) {
+    const target = event.target;
     if (target.tagName == "TD") {
       const classList = target.classList;
       for (let i = 0; i < classList.length; i++) {
@@ -136,7 +166,21 @@ function handleMouseMove(event) {
     }
   }
 }
-function handleMouseUp() {
-  isMouseDown = false;
-}
+addWeightedNodesButton.addEventListener("click", () => {
+  const table = document.getElementById("graph");
+  document.getElementById("obstacles-text").innerText =
+    "Click and drag to create weighted nodes!";
+  table.removeEventListener("mousemove", handleMouseMoveObstacle);
+  table.removeEventListener("mousemove", handleMouseMoveWeight);
+  table.addEventListener("mousemove", handleMouseMoveWeight);
+});
+addWallsButton.addEventListener("click", () => {
+  const table = document.getElementById("graph");
+  document.getElementById("obstacles-text").innerText =
+    "Click and drag to create walls!";
+  table.removeEventListener("mousemove", handleMouseMoveObstacle);
+  table.removeEventListener("mousemove", handleMouseMoveWeight);
+  table.addEventListener("mousemove", handleMouseMoveObstacle);
+});
+
 createGrid(startRow, startCol, endRow, endCol, numRows, numCols);

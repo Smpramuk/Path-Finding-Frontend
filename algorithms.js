@@ -62,9 +62,7 @@ export function dfs(
     }
     counter++;
     seen.add(curNodeHash);
-    const cell = document.querySelector(
-      `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
-    );
+    const cell = document.getElementById(`${x},${y}`);
     if (x === sourceRow && y === sourceCol) {
       const neighbors = getAllNeighbors(x, y);
       neighbors.forEach((element) => {
@@ -91,9 +89,7 @@ export function dfs(
         setTimeout(() => {
           const x = path[i][0];
           const y = path[i][1];
-          const cell = document.querySelector(
-            `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
-          );
+          const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
         }, (counter + i + 1) * 2);
       }
@@ -149,7 +145,6 @@ export function bfs(
     const curNode = nodes.shift();
     const x = curNode[0];
     const y = curNode[1];
-    console.log(x + "," + y);
     const curNodeHash = hashCode(x, y);
     if (seen.has(curNodeHash)) {
       continue;
@@ -163,9 +158,7 @@ export function bfs(
     }
     counter++;
     seen.add(curNodeHash);
-    const cell = document.querySelector(
-      `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
-    );
+    const cell = document.getElementById(`${x},${y}`);
     if (x === sourceRow && y === sourceCol) {
       const neighbors = getAllNeighbors(x, y);
       neighbors.forEach((element) => {
@@ -184,7 +177,7 @@ export function bfs(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 2);
+    }, counter * 5);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -192,11 +185,9 @@ export function bfs(
         setTimeout(() => {
           const x = path[i][0];
           const y = path[i][1];
-          const cell = document.querySelector(
-            `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
-          );
+          const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
-        }, (counter + i + 1) * 2);
+        }, (counter + i + 1) * 5);
       }
       break;
     }
@@ -268,9 +259,7 @@ export function aStar(
     }
     counter++;
     seen.add(curNodeHash);
-    const cell = document.querySelector(
-      `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
-    );
+    const cell = document.getElementById(`${x},${y}`);
     if (x === sourceRow && y === sourceCol) {
       const neighbors = getAllNeighbors(x, y);
       neighbors.forEach((element) => {
@@ -278,12 +267,12 @@ export function aStar(
           isValidSquare(element[0], element[1]) &&
           !seen.has(hashCode(element[0], element[1]))
         ) {
+          parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
           nodes.enqueue(
             element,
             getCostSoFar(parentMap, element) +
               getHeuristic(element, [destRow, destCol])
           );
-          parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
         }
       });
       continue;
@@ -293,7 +282,7 @@ export function aStar(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 5);
+    }, counter * 50);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -301,11 +290,9 @@ export function aStar(
         setTimeout(() => {
           const x = path[i][0];
           const y = path[i][1];
-          const cell = document.querySelector(
-            `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
-          );
+          const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
-        }, (counter + i + 1) * 5);
+        }, (counter + i + 1) * 50);
       }
       break;
     }
@@ -316,18 +303,24 @@ export function aStar(
         isValidSquare(element[0], element[1]) &&
         !seen.has(hashCode(element[0], element[1]))
       ) {
+        //parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
         nodes.enqueue(
           element,
           getCostSoFar(parentMap, element) +
             getHeuristic(element, [destRow, destCol])
         );
         parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+
+        console.log(
+          getCostSoFar(parentMap, element) +
+            getHeuristic(element, [destRow, destCol])
+        );
       }
     });
   }
   if (nodes.isEmpty()) {
     const dataDiv = document.querySelector(".algo-data");
-    dataDiv.innerText = "No Path from astar!";
+    dataDiv.innerText = "No Path from A*!";
     return;
   }
   const dataDiv = document.querySelector(".algo-data");
@@ -360,8 +353,7 @@ export function dijkstra(
   parentMap[`${sourceRow},${sourceCol}`] = null;
   nodes.enqueue(
     [sourceRow, sourceCol],
-    getCostSoFar(parentMap, [sourceRow, sourceCol]) +
-      getHeuristic([sourceRow, sourceCol], [destRow, destCol])
+    getCostSoFar(parentMap, [sourceRow, sourceCol])
   );
   while (!nodes.isEmpty()) {
     // while there are still nodes, check if we are at the final node
@@ -381,9 +373,7 @@ export function dijkstra(
     }
     counter++;
     seen.add(curNodeHash);
-    const cell = document.querySelector(
-      `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
-    );
+    const cell = document.getElementById(`${x},${y}`);
     if (x === sourceRow && y === sourceCol) {
       const neighbors = getAllNeighbors(x, y);
       neighbors.forEach((element) => {
@@ -391,8 +381,8 @@ export function dijkstra(
           isValidSquare(element[0], element[1]) &&
           !seen.has(hashCode(element[0], element[1]))
         ) {
-          nodes.enqueue(element, getCostSoFar(parentMap, element));
           parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+          nodes.enqueue(element, getCostSoFar(parentMap, element));
         }
       });
       continue;
@@ -402,7 +392,7 @@ export function dijkstra(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 5);
+    }, counter * 2);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -410,11 +400,9 @@ export function dijkstra(
         setTimeout(() => {
           const x = path[i][0];
           const y = path[i][1];
-          const cell = document.querySelector(
-            `tr:nth-child(${x + 1}) td:nth-child(${y + 1})`
-          );
+          const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
-        }, (counter + i + 1) * 5);
+        }, (counter + i + 1) * 2);
       }
       break;
     }
@@ -425,14 +413,16 @@ export function dijkstra(
         isValidSquare(element[0], element[1]) &&
         !seen.has(hashCode(element[0], element[1]))
       ) {
-        nodes.enqueue(element, getCostSoFar(parentMap, element));
         parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        nodes.enqueue(element, getCostSoFar(parentMap, element));
+        console.log(getCostSoFar(parentMap, element));
+        // parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
       }
     });
   }
   if (nodes.isEmpty()) {
     const dataDiv = document.querySelector(".algo-data");
-    dataDiv.innerText = "No Path from astar!";
+    dataDiv.innerText = "No Path from Dijkstra!";
     return;
   }
   const dataDiv = document.querySelector(".algo-data");
@@ -503,12 +493,13 @@ export function resetGrid(
         cell.classList = [];
         cell.classList.add("ending-cell");
       } else {
+        cell.innerText = "";
         cell.classList = [];
       }
     }
   }
   const dataDiv = document.querySelector(".algo-data");
-  dataDiv.innerText = "";
+  dataDiv.innerText = "See data here after selecting an algorithm!";
 }
 export function resetGridLeaveObstacles(
   startX = startRow,
@@ -516,7 +507,6 @@ export function resetGridLeaveObstacles(
   endX = endRow,
   endY = endCol
 ) {
-  console.log(startX + "," + startY + " in resetGrid");
   for (let i = 0; i < numRows; i++) {
     for (let j = 0; j < numCols; j++) {
       const cell = document.querySelector(
@@ -525,7 +515,6 @@ export function resetGridLeaveObstacles(
       if (i == startX && j == startY) {
         cell.classList = [];
         cell.classList.add("starting-cell");
-        console.log("The starting cell has been hit!");
       } else if (i == endX && j == endY) {
         cell.classList = [];
         cell.classList.add("ending-cell");
@@ -535,6 +524,10 @@ export function resetGridLeaveObstacles(
         for (let i = 0; i < classList.length; i++) {
           if (classList[i] == "obstacle") {
             obstacle = true; //if the cell is an obstacle, return false
+          } else if (classList[i] == "weighted-cell") {
+            obstacle = true;
+            cell.classList = [];
+            cell.classList.add("weighted-cell");
           }
         }
         if (obstacle) {
@@ -544,6 +537,8 @@ export function resetGridLeaveObstacles(
       }
     }
   }
+  const dataDiv = document.querySelector(".algo-data");
+  dataDiv.innerText = "See data here after selecting an algorithm!";
 }
 export function createGrid(
   srcRow = startRow,
@@ -555,15 +550,17 @@ export function createGrid(
     const row = document.createElement("tr");
     for (let j = 0; j < numCols; j++) {
       const cell = document.createElement("td");
+      cell.id = `${i},${j}`;
       if (i == srcRow && j == srcCol) {
         cell.classList.add("starting-cell");
       } else if (i == destRow && j == destCol) {
         cell.classList.add("ending-cell");
       }
       row.appendChild(cell);
-      cell.addEventListener("click", () => {
-        cell.classList.add("obstacle");
-      });
+      // cell.addEventListener("click", () => {
+      //   cell.classList = [];
+      //   cell.classList.add("obstacle");
+      // });
     }
     document.querySelector("table").appendChild(row);
   }
@@ -597,10 +594,20 @@ function createPath(map, curPoint) {
   return path;
 }
 function getCostSoFar(map, curPoint) {
-  let pathLength = 0;
+  var pathLength = 0;
   let curX = curPoint[0];
   let curY = curPoint[1];
   while (map[`${curX},${curY}`]) {
+    // const cell = document.querySelector(
+    //   `tr:nth-child(${curX + 1}) td:nth-child(${curY + 1})`
+    // );
+    // const classList = cell.classList;
+    if (
+      document.getElementById(`${curX},${curY}`).classList[0] == "weighted-cell"
+    ) {
+      pathLength += 100;
+    }
+
     pathLength++;
     const nextPoint = map[`${curX},${curY}`];
     const [newX, newY] = nextPoint.split(",").map((str) => parseInt(str));
@@ -617,7 +624,7 @@ function getHeuristic(curPoint, targetPoint) {
   const deltaX = Math.abs(curX - targetX);
   const deltaY = Math.abs(curY - targetY);
   return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-  //return optimalPathLength(curX, curY, targetX, targetY);
+  //return optimalPathLength(curX, curY, targetX, targetY); //PAINFULLY SLOW!!!
   // Distance formula for heuristic
 }
 function optimalPathLength(

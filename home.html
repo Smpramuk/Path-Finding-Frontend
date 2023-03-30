@@ -11,57 +11,71 @@
   <body>
     <div class = "top-bar">
       <div class="new-points-container">
-      <button class="new-points">New Points</button>
-      <div class="new-points-dropdown">
-        <div class="new-start-points-container">
-          <button class="new-start-points">
-          New start point (0 indexed).
-          </button>
-          <div class="start-input-container">
-            <div class="start-inputs">
-              <input class="new-starting-x" type="number" placeholder="New X Coordinate" >
-              <input class="new-starting-y" type="number" placeholder="New Y Coordinate">
-            </div>
-            <div class="new-start-button">
-              <button class="new-start-points-button">
-                Enter
-              </button>
+        <button id="new-points" class="new-points">New Points</button>
+        <div class="new-points-dropdown">
+          <div class="new-start-points-container">
+            <button id="new-start-points" class="new-start-points">
+            New start point (0 indexed).
+            </button>
+            <div id="start-input-container" class="start-input-container">
+              <div class="start-inputs">
+                <input id="new-starting-x" class="new-starting-x" type="number" placeholder="New X Coordinate" >
+                <input id="new-starting-y" class="new-starting-y" type="number" placeholder="New Y Coordinate">
+              </div>
+              <div id="new-start-button" class="new-start-button">
+                <button class="new-start-points-button">
+                  Enter
+                </button>
+              </div>
             </div>
           </div>
+          <div class="new-end-points-container">
+            <button id="new-end-points" class="new-end-points">
+            New target point (0 indexed).
+            </button>
+            <div id="end-input-container" class="end-input-container">
+              <div class="end-inputs">
+                <input id="new-end-x" class="new-end-x" type="number" placeholder="New X Coordinate" >
+                <input id="new-end-y" class="new-end-y" type="number" placeholder="New Y Coordinate">
+              </div>
+              <div id="new-end-button" class="new-end-button">
+                <button class="new-end-points-button">
+                  Enter
+                </button>
+              </div>
+          </div>
         </div>
-        <div class="new-end-points-container">
-          <button class="new-end-points">
-          New target point (0 indexed).
-          </button>
-          <div class="end-input-container">
-            <div class="end-inputs">
-              <input class="new-end-x" type="number" placeholder="New X Coordinate" >
-              <input class="new-end-y" type="number" placeholder="New Y Coordinate">
-            </div>
-            <div class="new-end-button">
-              <button class="new-end-points-button">
-                Enter
-              </button>
-            </div>
-        </div>
-      </div>
       </div>
     </div class="buttons">
-      <button class = 'algo-dropdown'>Choose your algorithm wisely!</button>
-      <button class="dfs-button">DFS</button>
-      <button class="bfs-button">BFS</button>
-      <button class="astar-button">A*</button>
-      <button class="dijkstra-button">Dijkstra</button>
-      <div class="reset-options">
-        <button class="reset-button">Reset Grid</button>
+      <button id="weighted-button" class = "weighted-button">Add Weighted Nodes!</button>
+      <button id="obstacle-button" class = "obstacle-button">Add Walls! </button>
+      <button id="dfs-button" class="dfs-button">DFS</button>
+      <button id="bfs-button" class="bfs-button">BFS</button>
+      <button id="astar-button" class="astar-button">A*</button>
+      <button id="dijkstra-button" class="dijkstra-button">Dijkstra</button>
+      <div class="reset-options-container">
+        <button id="reset-button" class="reset-button">Reset Grid</button>
+        <div id="reset-options" class="reset-options">
+          <div class="remove-obstacles-option">
+            <button  id="reset-button-remove-obstacles" class="reset-button-remove-obstacles">Remove Obstacles</button>
+          </div>
+          <div class="keep-obstacles-option">
+            <button id="reset-button-keep-obstacles" class="reset-button-keep-obstacles">Keep Obstacles</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="middlePage">
-      <div class = 'grid'>
-        <table class="graph"></table>
+      <div class="middle-container">
+        <p id="obstacles-text" class="walls-text">Click and drag to create walls!</p>
+        <div class = 'grid'>
+          <table id="graph" class="graph"></table>
+        </div>
       </div>
       <div class="algo-data">
+        See data here after selecting an algorithm!
       </div>
+      
     </div>
     <script type="module" src="myscript.js"></script>
   </body>
