@@ -22,6 +22,7 @@ td {
   border:1px solid gray;
   border-radius: 1px;
   user-select: none;
+  padding: 0px;
   
 }
 .middlePage{
@@ -43,6 +44,9 @@ td {
 .weighted-cell {
   background-color: blueviolet;
   font-weight: bold;
+  text-align: center;
+  font-size: 17.8px;
+  font-family: 'Courier New', Courier, monospace;
   color: black;
 }
 .top-text {
