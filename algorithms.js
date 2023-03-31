@@ -85,7 +85,16 @@ export function dfs(
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
+      var pathLength = 0;
       for (let i = 0; i < path.length; i++) {
+        if (
+          document.getElementById(`${path[i][0]},${path[i][1]}`).classList[0] ==
+          "weighted-cell"
+        ) {
+          pathLength += 10;
+        } else {
+          pathLength++;
+        }
         setTimeout(() => {
           const x = path[i][0];
           const y = path[i][1];
@@ -125,7 +134,7 @@ export function dfs(
     "," +
     destCol +
     ").\n It had a path length of: " +
-    path.length +
+    pathLength +
     "\nThe optimal path length is: " +
     optimalPathLength(sourceRow, sourceCol, destRow, destCol);
 }
@@ -181,7 +190,16 @@ export function bfs(
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
+      var pathLength = 0;
       for (let i = 0; i < path.length; i++) {
+        if (
+          document.getElementById(`${path[i][0]},${path[i][1]}`).classList[0] ==
+          "weighted-cell"
+        ) {
+          pathLength += 10;
+        } else {
+          pathLength++;
+        }
         setTimeout(() => {
           const x = path[i][0];
           const y = path[i][1];
@@ -221,7 +239,7 @@ export function bfs(
     "," +
     destCol +
     ").\n It had a path length of: " +
-    path.length +
+    pathLength +
     "\nThe optimal path length is: " +
     optimalPathLength(sourceRow, sourceCol, destRow, destCol);
 }
@@ -286,7 +304,16 @@ export function aStar(
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
+      var pathLength = 0;
       for (let i = 0; i < path.length; i++) {
+        if (
+          document.getElementById(`${path[i][0]},${path[i][1]}`).classList[0] ==
+          "weighted-cell"
+        ) {
+          pathLength += 10;
+        } else {
+          pathLength++;
+        }
         setTimeout(() => {
           const x = path[i][0];
           const y = path[i][1];
@@ -336,7 +363,7 @@ export function aStar(
     "," +
     destCol +
     ").\n It had a path length of: " +
-    path.length +
+    pathLength +
     "\nThe optimal path length is: " +
     optimalPathLength(sourceRow, sourceCol, destRow, destCol);
 }
@@ -396,7 +423,16 @@ export function dijkstra(
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
+      var pathLength = 0;
       for (let i = 0; i < path.length; i++) {
+        if (
+          document.getElementById(`${path[i][0]},${path[i][1]}`).classList[0] ==
+          "weighted-cell"
+        ) {
+          pathLength += 10;
+        } else {
+          pathLength++;
+        }
         setTimeout(() => {
           const x = path[i][0];
           const y = path[i][1];
@@ -438,7 +474,7 @@ export function dijkstra(
     "," +
     destCol +
     ").\n It had a path length of: " +
-    path.length +
+    pathLength +
     "\nThe optimal path length is: " +
     optimalPathLength(sourceRow, sourceCol, destRow, destCol);
 }
@@ -514,9 +550,11 @@ export function resetGridLeaveObstacles(
       );
       if (i == startX && j == startY) {
         cell.classList = [];
+        cell.innerText = "";
         cell.classList.add("starting-cell");
       } else if (i == endX && j == endY) {
         cell.classList = [];
+        cell.innerText = "";
         cell.classList.add("ending-cell");
       } else {
         const classList = cell.classList;
@@ -598,21 +636,21 @@ function getCostSoFar(map, curPoint) {
   let curX = curPoint[0];
   let curY = curPoint[1];
   while (map[`${curX},${curY}`]) {
-    // const cell = document.querySelector(
-    //   `tr:nth-child(${curX + 1}) td:nth-child(${curY + 1})`
-    // );
-    // const classList = cell.classList;
     if (
       document.getElementById(`${curX},${curY}`).classList[0] == "weighted-cell"
     ) {
-      pathLength += 100;
+      pathLength += 10;
+      const nextPoint = map[`${curX},${curY}`];
+      const [newX, newY] = nextPoint.split(",").map((str) => parseInt(str));
+      curX = newX;
+      curY = newY;
+    } else {
+      pathLength++;
+      const nextPoint = map[`${curX},${curY}`];
+      const [newX, newY] = nextPoint.split(",").map((str) => parseInt(str));
+      curX = newX;
+      curY = newY;
     }
-
-    pathLength++;
-    const nextPoint = map[`${curX},${curY}`];
-    const [newX, newY] = nextPoint.split(",").map((str) => parseInt(str));
-    curX = newX;
-    curY = newY;
   }
   return pathLength;
 }
@@ -633,17 +671,20 @@ function optimalPathLength(
   destRow = endRow,
   destCol = endCol
 ) {
-  const nodes = [[sourceRow, sourceCol]]; //keep track of nodes by their x, y coordinate pair
+  const nodes = new PriorityQueue(); //[[sourceRow, sourceCol]]; //keep track of nodes by their x, y coordinate pair
   const seen = new Set();
   const parentMap = {};
   parentMap[`${sourceRow},${sourceCol}`] = null;
-  while (nodes.length > 0) {
+  nodes.enqueue(
+    [sourceRow, sourceCol],
+    getCostSoFar(parentMap, [sourceRow, sourceCol])
+  );
+  while (!nodes.isEmpty()) {
     // while there are still nodes, check if we are at the final node
-    const curNode = nodes.shift();
+    const curNode = nodes.dequeue();
     const x = curNode[0];
     const y = curNode[1];
     const curNodeHash = hashCode(x, y);
-    var path;
     if (seen.has(curNodeHash)) {
       continue;
       // if we've already seen the node, or it's not on the grid go to the next node
@@ -655,6 +696,7 @@ function optimalPathLength(
       continue;
     }
     seen.add(curNodeHash);
+    const cell = document.getElementById(`${x},${y}`);
     if (x === sourceRow && y === sourceCol) {
       const neighbors = getAllNeighbors(x, y);
       neighbors.forEach((element) => {
@@ -662,14 +704,25 @@ function optimalPathLength(
           isValidSquare(element[0], element[1]) &&
           !seen.has(hashCode(element[0], element[1]))
         ) {
-          nodes.push(element);
           parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+          nodes.enqueue(element, getCostSoFar(parentMap, element));
         }
       });
       continue;
     }
     if (x === destRow && y === destCol) {
-      path = createPath(parentMap, [x, y]);
+      var path = createPath(parentMap, [x, y]);
+      var pathLength = 0;
+      for (let i = 0; i < path.length; i++) {
+        if (
+          document.getElementById(`${path[i][0]},${path[i][1]}`).classList[0] ==
+          "weighted-cell"
+        ) {
+          pathLength += 10;
+        } else {
+          pathLength++;
+        }
+      }
       break;
     }
     // enqueue every neighboring node
@@ -679,10 +732,10 @@ function optimalPathLength(
         isValidSquare(element[0], element[1]) &&
         !seen.has(hashCode(element[0], element[1]))
       ) {
-        nodes.push(element);
         parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        nodes.enqueue(element, getCostSoFar(parentMap, element));
       }
     });
   }
-  return path ? path.length : 0;
+  return pathLength;
 }
