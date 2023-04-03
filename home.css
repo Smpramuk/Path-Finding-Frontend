@@ -1,9 +1,26 @@
-
+html {
+  background-color: rgb(138, 138, 138);
+}
 .grid {
-  /* background-color: gray; */
-  display: flex;
+  background-color: white;
+  flex:1;
   align-items: center;
   justify-content: center;
+}
+.project-description {
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+  background-color: rgb(248, 95, 7);
+  font-size: 24px;
+  color:rgb(0, 0, 0);
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  flex: 1;
+  margin-left: 10px;
+  position: relative;
+  z-index: 1;
 }
 .top-bar {
   display: flex;
@@ -15,24 +32,34 @@ table {
   flex: 1;
   border-collapse: collapse;
   margin-top: 100px;
-
 }
 td {
   width: 20px;
   height: 20px;
-  border:1px solid gray;
-  border-radius: 1px;
+  border:1px solid rgb(0, 0, 0);
   user-select: none;
   padding: 0px;
   
 }
 .middlePage{
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items:center;
   margin-top: 50px;
-
+  position: relative;
 }
+/* Potentially create a dividing line between the top menu and grid
+ .middlePage::before{
+  content: "";
+  position: absolute;
+  top: 27px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #000000;
+  z-index: -1;
+  pointer-events: none;
+} */
 .ending-cell {
   background-color: red;
 }
@@ -81,17 +108,19 @@ td {
   background-color: white;
 }
 .algo-data {
+  position: relative;
   justify-content: center;
   text-align: center;
   border-radius: 10px;
   background-color: rgb(248, 95, 7);
-  margin-left: 20px;
   font-size: 24px;
   color:rgb(0, 0, 0);
   font-weight: bold;
   font-family: 'Courier New', Courier, monospace;
   display: flex;
   flex: 1;
+  margin-right: 10px;
+  z-index: 1;
 }
 .reset-button {
   background-color: rgb(0, 44, 0);
@@ -182,6 +211,7 @@ td {
   cursor: pointer;
   margin-bottom: 10px;
   margin-top: 10px;
+  z-index: 2;
   
 }
 .new-end-points{
@@ -193,6 +223,7 @@ td {
   border: none;
   transition: all 1s;
   cursor: pointer;
+  z-index: 2;
 
 }
 .start-input-container{
@@ -235,12 +266,14 @@ td {
   border: none;
   transition: all 1s;
   cursor: pointer;
+  z-index: 2;
 }
 .end-input-container {
   display: none;
   position: absolute;
   margin-top: -8px;
   left:100%;
+  z-index: 2;
 }
 .buttons {
   display: flex;
@@ -266,6 +299,7 @@ td {
   margin-top: -12px;
 }
 .reset-button-remove-obstacles, .reset-button-keep-obstacles {
+  position: relative;
   background-color: rgb(0, 0, 0);
   font-size: 16px;
   color: rgb(255, 255, 255);
@@ -276,6 +310,7 @@ td {
   cursor: pointer;
   margin-bottom: 10px;
   margin-top: 10px;
+  z-index: 2;
 }
 .walls-text {
   text-align: center;
