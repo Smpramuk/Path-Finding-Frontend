@@ -143,7 +143,6 @@ export function handleMouseMoveWeight(event) {
   if (isMouseDown) {
     const target = event.target;
     if (target.tagName == "TD") {
-      target.innerText = "W";
       const classList = target.classList;
       for (let i = 0; i < classList.length; i++) {
         if (classList[i] == "starting-cell" || classList[i] == "ending-cell") {
@@ -151,6 +150,7 @@ export function handleMouseMoveWeight(event) {
         }
       }
       target.classList = [];
+      target.innerText = "W";
       target.classList.add("weighted-cell");
     }
   }
