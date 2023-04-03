@@ -1,5 +1,6 @@
 const numRows = 30;
 const numCols = 30;
+
 function withinBounds(x, y) {
   return x < numRows && x >= 0 && y < numCols && y >= 0;
 }
@@ -100,6 +101,9 @@ export function dfs(
           const y = path[i][1];
           const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
+          if (i == path.length - 1) {
+            enableButtons();
+          }
         }, (counter + i + 1) * 2 + 800);
       }
       break;
@@ -136,7 +140,8 @@ export function dfs(
     ").\n It had a path length of: " +
     pathLength +
     "\nThe optimal path length is: " +
-    optimalPathLength(sourceRow, sourceCol, destRow, destCol);
+    optimalPathLength(sourceRow, sourceCol, destRow, destCol) +
+    "\nDescription: Depth-first search (DFS) is a graph traversal algorithm that starts at a given node and explores as far as possible along each branch before backtracking. The algorithm maintains a stack to keep track of the nodes to visit, and marks each visited node to avoid revisiting them. DFS is useful for exploring all paths in a graph, and for detecting cycles in directed graphs. However, it may not find the shortest path between two nodes, as it may explore long branches before exploring shorter ones.";
 }
 export function bfs(
   sourceRow = startRow,
@@ -205,6 +210,9 @@ export function bfs(
           const y = path[i][1];
           const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
+          if (i == path.length - 1) {
+            enableButtons();
+          }
         }, (counter + i + 1) * 2 + 800);
       }
       break;
@@ -241,7 +249,8 @@ export function bfs(
     ").\n It had a path length of: " +
     pathLength +
     "\nThe optimal path length is: " +
-    optimalPathLength(sourceRow, sourceCol, destRow, destCol);
+    optimalPathLength(sourceRow, sourceCol, destRow, destCol) +
+    "\nDescription: Breadth-first search (BFS) is an algorithm for traversing or searching a graph, starting from a specific node. It explores all the neighboring nodes at the present depth level before moving on to nodes at the next level. This approach ensures that the shortest path to any reachable node is found first. BFS maintains a queue of nodes to visit, and marks each visited node to avoid revisiting them. The algorithm continues to visit nodes in the queue until all reachable nodes have been visited, or a desired node has been found.";
 }
 export function aStar(
   sourceRow = startRow,
@@ -319,6 +328,9 @@ export function aStar(
           const y = path[i][1];
           const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
+          if (i == path.length - 1) {
+            enableButtons();
+          }
         }, (counter + i + 1) * 2 + 800);
       }
       break;
@@ -330,13 +342,13 @@ export function aStar(
         isValidSquare(element[0], element[1]) &&
         !seen.has(hashCode(element[0], element[1]))
       ) {
-        //parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
         nodes.enqueue(
           element,
           getCostSoFar(parentMap, element) +
             getHeuristic(element, [destRow, destCol])
         );
-        parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        //parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
 
         console.log(
           getCostSoFar(parentMap, element) +
@@ -365,7 +377,8 @@ export function aStar(
     ").\n It had a path length of: " +
     pathLength +
     "\nThe optimal path length is: " +
-    optimalPathLength(sourceRow, sourceCol, destRow, destCol);
+    optimalPathLength(sourceRow, sourceCol, destRow, destCol) +
+    "\nDescription: A* is an informed search algorithm, or a best-first search, meaning that it is formulated in terms of weighted graphs: starting from a specific starting node of a graph, it aims to find a path to the given goal node having the smallest cost (least distance travelled, shortest time, etc.). It does this by maintaining a tree of paths originating at the start node and extending those paths one edge at a time until its termination criterion is satisfied.";
 }
 export function dijkstra(
   sourceRow = startRow,
@@ -419,7 +432,7 @@ export function dijkstra(
       if (x === destRow && y == destCol) {
         cell.classList.add("arrived");
       }
-    }, counter * 2 + 1000);
+    }, counter * 2 + 1100);
     if (x === destRow && y === destCol) {
       console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
@@ -438,7 +451,10 @@ export function dijkstra(
           const y = path[i][1];
           const cell = document.getElementById(`${x},${y}`);
           cell.classList.add("path");
-        }, (counter + i + 1) * 2 + 1000);
+          if (i == path.length - 1) {
+            enableButtons();
+          }
+        }, (counter + i + 1) * 2 + 1100);
       }
       break;
     }
@@ -476,7 +492,8 @@ export function dijkstra(
     ").\n It had a path length of: " +
     pathLength +
     "\nThe optimal path length is: " +
-    optimalPathLength(sourceRow, sourceCol, destRow, destCol);
+    optimalPathLength(sourceRow, sourceCol, destRow, destCol) +
+    "\nDescription: Dijkstra's algorithm is a graph traversal algorithm that finds the shortest path between a starting node and all other nodes in a weighted graph. It achieves this by maintaining a priority queue of nodes based on their distance from the starting node, and iteratively visiting the closest node until all nodes have been visited. During each iteration, the algorithm relaxes the edges connecting the current node to its neighboring nodes, updating their distances if a shorter path is found.";
 }
 class PriorityQueue {
   constructor() {
@@ -738,4 +755,12 @@ function optimalPathLength(
     });
   }
   return pathLength;
+}
+function enableButtons() {
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    button.style.opacity = "";
+    button.style.filter = "";
+    button.style.pointerEvents = "";
+  });
 }
