@@ -16,6 +16,7 @@ var startRow = 0;
 var startCol = 0;
 var endRow = 29;
 var endCol = 29;
+var wallsTrue = true;
 
 const resetButton = document.getElementById("reset-button");
 const dfsButton = document.getElementById("dfs-button");
@@ -56,23 +57,23 @@ keepObstaclesButton.addEventListener("click", () => {
 });
 dfsButton.addEventListener("click", () => {
   disableButtons();
-  resetGridLeaveObstacles(startRow, startCol, endRow, endCol);
-  dfs(startRow, startCol, endRow, endCol, 0);
+  resetGridLeaveObstacles(startRow, startCol, endRow, endCol, wallsTrue);
+  dfs(startRow, startCol, endRow, endCol, 0, wallsTrue);
 });
 bfsButton.addEventListener("click", () => {
   disableButtons();
   resetGridLeaveObstacles(startRow, startCol, endRow, endCol);
-  bfs(startRow, startCol, endRow, endCol, 0);
+  bfs(startRow, startCol, endRow, endCol, 0, wallsTrue);
 });
 astarButton.addEventListener("click", () => {
   disableButtons();
   resetGridLeaveObstacles(startRow, startCol, endRow, endCol);
-  aStar(startRow, startCol, endRow, endCol, 0);
+  aStar(startRow, startCol, endRow, endCol, 0, wallsTrue);
 });
 dijkstraButton.addEventListener("click", () => {
   disableButtons();
   resetGridLeaveObstacles(startRow, startCol, endRow, endCol);
-  dijkstra(startRow, startCol, endRow, endCol, 0);
+  dijkstra(startRow, startCol, endRow, endCol, 0, wallsTrue);
 });
 newStartButton.addEventListener("click", () => {
   const xInput = document.getElementById("new-starting-x");
@@ -138,7 +139,7 @@ table.addEventListener("mousemove", handleMouseMoveObstacle);
 table.addEventListener("mouseup", () => {
   isMouseDown = false;
 });
-function handleMouseMoveWeight(event) {
+export function handleMouseMoveWeight(event) {
   if (isMouseDown) {
     const target = event.target;
     if (target.tagName == "TD") {
@@ -154,7 +155,7 @@ function handleMouseMoveWeight(event) {
     }
   }
 }
-function handleMouseMoveObstacle(event) {
+export function handleMouseMoveObstacle(event) {
   if (isMouseDown) {
     const target = event.target;
     if (target.tagName == "TD") {
@@ -176,6 +177,7 @@ addWeightedNodesButton.addEventListener("click", () => {
   table.removeEventListener("mousemove", handleMouseMoveObstacle);
   table.removeEventListener("mousemove", handleMouseMoveWeight);
   table.addEventListener("mousemove", handleMouseMoveWeight);
+  wallsTrue = false;
 });
 addWallsButton.addEventListener("click", () => {
   const table = document.getElementById("graph");
@@ -184,8 +186,15 @@ addWallsButton.addEventListener("click", () => {
   table.removeEventListener("mousemove", handleMouseMoveObstacle);
   table.removeEventListener("mousemove", handleMouseMoveWeight);
   table.addEventListener("mousemove", handleMouseMoveObstacle);
+  wallsTrue = true;
 });
 function disableButtons() {
+  const table = document.getElementById("graph");
+  if (wallsTrue) {
+    table.removeEventListener("mousemove", handleMouseMoveObstacle);
+  } else {
+    table.removeEventListener("mousemove", handleMouseMoveWeight);
+  }
   const buttons = document.querySelectorAll("button");
   buttons.forEach((button) => {
     button.style.opacity = ".5";

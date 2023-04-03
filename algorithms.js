@@ -1,3 +1,5 @@
+import { handleMouseMoveObstacle, handleMouseMoveWeight } from "./myscript.js";
+
 const numRows = 30;
 const numCols = 30;
 
@@ -39,7 +41,8 @@ export function dfs(
   sourceCol = startCol,
   destRow = endRow,
   destCol = endCol,
-  counter
+  counter,
+  wallsTrue
 ) {
   const nodes = [[sourceRow, sourceCol]]; //keep track of nodes by their x, y coordinate pair
   const seen = new Set();
@@ -84,7 +87,6 @@ export function dfs(
       }
     }, counter * 2 + 800);
     if (x === destRow && y === destCol) {
-      console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
       var pathLength = 0;
       for (let i = 0; i < path.length; i++) {
@@ -103,6 +105,12 @@ export function dfs(
           cell.classList.add("path");
           if (i == path.length - 1) {
             enableButtons();
+            const table = document.getElementById("graph");
+            if (wallsTrue) {
+              table.addEventListener("mousemove", handleMouseMoveObstacle);
+            } else {
+              table.addEventListener("mousemove", handleMouseMoveWeight);
+            }
           }
         }, (counter + i + 1) * 2 + 800);
       }
@@ -148,7 +156,8 @@ export function bfs(
   sourceCol = startCol,
   destRow = endRow,
   destCol = endCol,
-  counter
+  counter,
+  wallsTrue
 ) {
   const nodes = [[sourceRow, sourceCol]]; //keep track of nodes by their x, y coordinate pair
   const seen = new Set();
@@ -193,7 +202,6 @@ export function bfs(
       }
     }, counter * 2 + 800);
     if (x === destRow && y === destCol) {
-      console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
       var pathLength = 0;
       for (let i = 0; i < path.length; i++) {
@@ -212,6 +220,12 @@ export function bfs(
           cell.classList.add("path");
           if (i == path.length - 1) {
             enableButtons();
+            const table = document.getElementById("graph");
+            if (wallsTrue) {
+              table.addEventListener("mousemove", handleMouseMoveObstacle);
+            } else {
+              table.addEventListener("mousemove", handleMouseMoveWeight);
+            }
           }
         }, (counter + i + 1) * 2 + 800);
       }
@@ -257,7 +271,8 @@ export function aStar(
   sourceCol = startCol,
   destRow = endRow,
   destCol = endCol,
-  counter
+  counter,
+  wallsTrue
 ) {
   const nodes = new PriorityQueue(); //[[sourceRow, sourceCol]]; //keep track of nodes by their x, y coordinate pair
   const seen = new Set();
@@ -311,7 +326,6 @@ export function aStar(
       }
     }, counter * 2 + 800);
     if (x === destRow && y === destCol) {
-      console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
       var pathLength = 0;
       for (let i = 0; i < path.length; i++) {
@@ -330,6 +344,12 @@ export function aStar(
           cell.classList.add("path");
           if (i == path.length - 1) {
             enableButtons();
+            const table = document.getElementById("graph");
+            if (wallsTrue) {
+              table.addEventListener("mousemove", handleMouseMoveObstacle);
+            } else {
+              table.addEventListener("mousemove", handleMouseMoveWeight);
+            }
           }
         }, (counter + i + 1) * 2 + 800);
       }
@@ -345,12 +365,6 @@ export function aStar(
         parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
         nodes.enqueue(
           element,
-          getCostSoFar(parentMap, element) +
-            getHeuristic(element, [destRow, destCol])
-        );
-        //parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
-
-        console.log(
           getCostSoFar(parentMap, element) +
             getHeuristic(element, [destRow, destCol])
         );
@@ -385,7 +399,8 @@ export function dijkstra(
   sourceCol = startCol,
   destRow = endRow,
   destCol = endCol,
-  counter
+  counter,
+  wallsTrue
 ) {
   const nodes = new PriorityQueue(); //[[sourceRow, sourceCol]]; //keep track of nodes by their x, y coordinate pair
   const seen = new Set();
@@ -434,7 +449,6 @@ export function dijkstra(
       }
     }, counter * 2 + 1100);
     if (x === destRow && y === destCol) {
-      console.log("ARRIVED!");
       var path = createPath(parentMap, [x, y]);
       var pathLength = 0;
       for (let i = 0; i < path.length; i++) {
@@ -453,6 +467,12 @@ export function dijkstra(
           cell.classList.add("path");
           if (i == path.length - 1) {
             enableButtons();
+            const table = document.getElementById("graph");
+            if (wallsTrue) {
+              table.addEventListener("mousemove", handleMouseMoveObstacle);
+            } else {
+              table.addEventListener("mousemove", handleMouseMoveWeight);
+            }
           }
         }, (counter + i + 1) * 2 + 1100);
       }
@@ -467,8 +487,7 @@ export function dijkstra(
       ) {
         parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
         nodes.enqueue(element, getCostSoFar(parentMap, element));
-        console.log(getCostSoFar(parentMap, element));
-        // parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        // link the parent to the child, and enqueue the child
       }
     });
   }
@@ -541,7 +560,6 @@ export function resetGrid(
       if (i == startX && j == startY) {
         cell.classList = [];
         cell.classList.add("starting-cell");
-        console.log("The starting cell has been hit!");
       } else if (i == endX && j == endY) {
         cell.classList = [];
         cell.classList.add("ending-cell");
