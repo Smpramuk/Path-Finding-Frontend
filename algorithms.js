@@ -129,6 +129,15 @@ export function dfs(
     });
   }
   if (nodes.length == 0) {
+    setTimeout(() => {
+      enableButtons();
+    }, (counter + 1) * 2 + 800);
+    const table = document.getElementById("graph");
+    if (wallsTrue) {
+      table.addEventListener("mousemove", handleMouseMoveObstacle);
+    } else {
+      table.addEventListener("mousemove", handleMouseMoveWeight);
+    }
     const dataDiv = document.querySelector(".algo-data");
     dataDiv.innerText = "No Path from dfs!";
     return;
@@ -244,6 +253,15 @@ export function bfs(
     });
   }
   if (nodes.length == 0) {
+    setTimeout(() => {
+      enableButtons();
+    }, (counter + 1) * 2 + 800);
+    const table = document.getElementById("graph");
+    if (wallsTrue) {
+      table.addEventListener("mousemove", handleMouseMoveObstacle);
+    } else {
+      table.addEventListener("mousemove", handleMouseMoveWeight);
+    }
     const dataDiv = document.querySelector(".algo-data");
     dataDiv.innerText = "No Path from bfs!";
     return;
@@ -309,7 +327,9 @@ export function aStar(
           isValidSquare(element[0], element[1]) &&
           !seen.has(hashCode(element[0], element[1]))
         ) {
-          parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+          if (!parentMap.hasOwnProperty(`${element[0]},${element[1]}`)) {
+            parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+          }
           nodes.enqueue(
             element,
             getCostSoFar(parentMap, element) +
@@ -362,7 +382,9 @@ export function aStar(
         isValidSquare(element[0], element[1]) &&
         !seen.has(hashCode(element[0], element[1]))
       ) {
-        parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        if (!parentMap.hasOwnProperty(`${element[0]},${element[1]}`)) {
+          parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        }
         nodes.enqueue(
           element,
           getCostSoFar(parentMap, element) +
@@ -372,6 +394,15 @@ export function aStar(
     });
   }
   if (nodes.isEmpty()) {
+    setTimeout(() => {
+      enableButtons();
+    }, (counter + 1) * 2 + 800);
+    const table = document.getElementById("graph");
+    if (wallsTrue) {
+      table.addEventListener("mousemove", handleMouseMoveObstacle);
+    } else {
+      table.addEventListener("mousemove", handleMouseMoveWeight);
+    }
     const dataDiv = document.querySelector(".algo-data");
     dataDiv.innerText = "No Path from A*!";
     return;
@@ -436,7 +467,9 @@ export function dijkstra(
           isValidSquare(element[0], element[1]) &&
           !seen.has(hashCode(element[0], element[1]))
         ) {
-          parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+          if (!parentMap.hasOwnProperty(`${element[0]},${element[1]}`)) {
+            parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+          }
           nodes.enqueue(element, getCostSoFar(parentMap, element));
         }
       });
@@ -485,13 +518,24 @@ export function dijkstra(
         isValidSquare(element[0], element[1]) &&
         !seen.has(hashCode(element[0], element[1]))
       ) {
-        parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        if (!parentMap.hasOwnProperty(`${element[0]},${element[1]}`)) {
+          parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        }
         nodes.enqueue(element, getCostSoFar(parentMap, element));
         // link the parent to the child, and enqueue the child
       }
     });
   }
   if (nodes.isEmpty()) {
+    setTimeout(() => {
+      enableButtons();
+    }, (counter + 1) * 2 + 800);
+    const table = document.getElementById("graph");
+    if (wallsTrue) {
+      table.addEventListener("mousemove", handleMouseMoveObstacle);
+    } else {
+      table.addEventListener("mousemove", handleMouseMoveWeight);
+    }
     const dataDiv = document.querySelector(".algo-data");
     dataDiv.innerText = "No Path from Dijkstra!";
     return;
@@ -712,7 +756,8 @@ function optimalPathLength(
   parentMap[`${sourceRow},${sourceCol}`] = null;
   nodes.enqueue(
     [sourceRow, sourceCol],
-    getCostSoFar(parentMap, [sourceRow, sourceCol])
+    getCostSoFar(parentMap, [sourceRow, sourceCol]) +
+      getHeuristic([sourceRow, sourceCol], [destRow, destCol])
   );
   while (!nodes.isEmpty()) {
     // while there are still nodes, check if we are at the final node
@@ -731,7 +776,6 @@ function optimalPathLength(
       continue;
     }
     seen.add(curNodeHash);
-    const cell = document.getElementById(`${x},${y}`);
     if (x === sourceRow && y === sourceCol) {
       const neighbors = getAllNeighbors(x, y);
       neighbors.forEach((element) => {
@@ -740,7 +784,11 @@ function optimalPathLength(
           !seen.has(hashCode(element[0], element[1]))
         ) {
           parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
-          nodes.enqueue(element, getCostSoFar(parentMap, element));
+          nodes.enqueue(
+            element,
+            getCostSoFar(parentMap, element) +
+              getHeuristic(element, [destRow, destCol])
+          );
         }
       });
       continue;
@@ -767,8 +815,14 @@ function optimalPathLength(
         isValidSquare(element[0], element[1]) &&
         !seen.has(hashCode(element[0], element[1]))
       ) {
-        parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
-        nodes.enqueue(element, getCostSoFar(parentMap, element));
+        if (!parentMap.hasOwnProperty(`${element[0]},${element[1]}`)) {
+          parentMap[`${element[0]},${element[1]}`] = `${x},${y}`;
+        }
+        nodes.enqueue(
+          element,
+          getCostSoFar(parentMap, element) +
+            getHeuristic(element, [destRow, destCol])
+        );
       }
     });
   }
