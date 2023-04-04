@@ -42,6 +42,11 @@ resetButton.addEventListener("click", () => {
   const resetContainer = document.getElementById("reset-options");
   resetContainer.style.opacity =
     resetContainer.style.opacity === "1" ? "0" : "1";
+  resetContainer.style.pointerEvents =
+    resetContainer.style.pointerEvents == "none" ||
+    resetContainer.style.pointerEvents == ""
+      ? "auto"
+      : "none";
 });
 removeObstaclesButton.addEventListener("click", () => {
   resetGrid(startRow, startCol, endRow, endCol);
@@ -106,12 +111,22 @@ startPoints.addEventListener("click", () => {
   const inputContainer = document.getElementById("start-input-container");
   inputContainer.style.opacity =
     inputContainer.style.opacity === "1" ? "0" : "1";
+  inputContainer.style.pointerEvents =
+    inputContainer.style.pointerEvents == "none" ||
+    inputContainer.style.pointerEvents == ""
+      ? "auto"
+      : "none";
 });
 endPoints.addEventListener("click", () => {
   // Toggle the display property of the input container
   const inputContainer = document.getElementById("end-input-container");
   inputContainer.style.opacity =
     inputContainer.style.opacity === "1" ? "0" : "1";
+  inputContainer.style.pointerEvents =
+    inputContainer.style.pointerEvents == "none" ||
+    inputContainer.style.pointerEvents == ""
+      ? "auto"
+      : "none";
 });
 newPoints.addEventListener("click", toggleDropdown);
 table.addEventListener("mousedown", () => {

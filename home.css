@@ -193,6 +193,7 @@ td {
   flex-direction:column;
   position: absolute;
   opacity: 0;
+  pointer-events: none;
   transition: all 1s;
   top: 100%;
   left: 15%;
@@ -236,8 +237,10 @@ td {
 }
 .start-input-container{
   display: flex;
+  pointer-events: none;
   position: absolute;
   left:100%;
+  opacity: 0;
   z-index: 2;
   transition: all 1s;
 }
@@ -281,6 +284,8 @@ td {
 .end-input-container {
   display: flex;
   position: absolute;
+  opacity: 0;
+  pointer-events: none;
   margin-top: -8px;
   left:100%;
   z-index: 2;
@@ -299,6 +304,7 @@ td {
   margin-top: 10px;
   display: flex;
   opacity: 0;
+  pointer-events: none;
   flex-direction: column;
   position: absolute;
   top:100%;
