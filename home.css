@@ -270,7 +270,6 @@ td {
   transition: all 1s;
   cursor: pointer;
   z-index: 2;
-  pointer-events: none;
 }
 .end-input-container {
   display: none;
