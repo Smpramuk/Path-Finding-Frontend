@@ -139,7 +139,7 @@ export function dfs(
       table.addEventListener("mousemove", handleMouseMoveWeight);
     }
     const dataDiv = document.querySelector(".algo-data");
-    dataDiv.innerText = "No Path from dfs!";
+    dataDiv.innerText = "No Path from DFS!";
     return;
   }
   const dataDiv = document.querySelector(".algo-data");
@@ -263,7 +263,7 @@ export function bfs(
       table.addEventListener("mousemove", handleMouseMoveWeight);
     }
     const dataDiv = document.querySelector(".algo-data");
-    dataDiv.innerText = "No Path from bfs!";
+    dataDiv.innerText = "No Path from BFS!";
     return;
   }
   const dataDiv = document.querySelector(".algo-data");
