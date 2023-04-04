@@ -40,14 +40,8 @@ const addWallsButton = document.getElementById("obstacle-button");
 let isMouseDown = false;
 resetButton.addEventListener("click", () => {
   const resetContainer = document.getElementById("reset-options");
-  if (
-    resetContainer.style.display === "none" ||
-    resetContainer.style.display === ""
-  ) {
-    resetContainer.style.display = "flex";
-  } else {
-    resetContainer.style.display = "none";
-  }
+  resetContainer.style.opacity =
+    resetContainer.style.opacity === "1" ? "0" : "1";
 });
 removeObstaclesButton.addEventListener("click", () => {
   resetGrid(startRow, startCol, endRow, endCol);
@@ -110,26 +104,14 @@ newEndButton.addEventListener("click", () => {
 startPoints.addEventListener("click", () => {
   // Toggle the display property of the input container
   const inputContainer = document.getElementById("start-input-container");
-  if (
-    inputContainer.style.display === "none" ||
-    inputContainer.style.display === ""
-  ) {
-    inputContainer.style.display = "flex";
-  } else {
-    inputContainer.style.display = "none";
-  }
+  inputContainer.style.opacity =
+    inputContainer.style.opacity === "1" ? "0" : "1";
 });
 endPoints.addEventListener("click", () => {
   // Toggle the display property of the input container
   const inputContainer = document.getElementById("end-input-container");
-  if (
-    inputContainer.style.display === "none" ||
-    inputContainer.style.display === ""
-  ) {
-    inputContainer.style.display = "flex";
-  } else {
-    inputContainer.style.display = "none";
-  }
+  inputContainer.style.opacity =
+    inputContainer.style.opacity === "1" ? "0" : "1";
 });
 newPoints.addEventListener("click", toggleDropdown);
 table.addEventListener("mousedown", () => {

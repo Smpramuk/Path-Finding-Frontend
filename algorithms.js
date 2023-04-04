@@ -684,11 +684,7 @@ export function createGrid(
 }
 export function toggleDropdown() {
   var menu = document.querySelector(".new-points-dropdown");
-  var button = document.getElementById(".new-points");
-
-  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-  menu.style.top = "100%";
-  menu.style.left = "15%";
+  menu.style.opacity = menu.style.opacity === "1" ? "0" : "1";
 }
 function createPath(map, curPoint) {
   const path = [];
