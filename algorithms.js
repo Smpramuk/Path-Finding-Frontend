@@ -682,14 +682,7 @@ export function createGrid(
     document.querySelector("table").appendChild(row);
   }
 }
-export function toggleDropdown() {
-  var menu = document.querySelector(".new-points-dropdown");
-  menu.style.opacity = menu.style.opacity === "1" ? "0" : "1";
-  menu.style.pointerEvents =
-    menu.style.pointerEvents == "none" || menu.style.pointerEvents == ""
-      ? "auto"
-      : "none";
-}
+
 function createPath(map, curPoint) {
   const path = [];
   let curX = curPoint[0];

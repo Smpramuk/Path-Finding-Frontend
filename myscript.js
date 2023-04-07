@@ -3,7 +3,6 @@ import {
   bfs,
   resetGrid,
   createGrid,
-  toggleDropdown,
   aStar,
   isValidSquare,
   resetGridLeaveObstacles,
@@ -198,5 +197,26 @@ function disableButtons() {
     button.style.filter = "grayscale(100%)";
     button.style.pointerEvents = "none";
   });
+}
+function toggleDropdown() {
+  const menu = document.getElementById("new-points-dropdown");
+  const startInputContainer = document.getElementById("start-input-container");
+  const endInputContainer = document.getElementById("end-input-container");
+  menu.style.opacity = menu.style.opacity === "1" ? "0" : "1";
+  menu.style.pointerEvents =
+    menu.style.pointerEvents == "none" || menu.style.pointerEvents == ""
+      ? "auto"
+      : "none";
+  console.log(startInputContainer.style.opacity);
+  if (startInputContainer.style.pointerEvents == "auto") {
+    startInputContainer.style.pointerEvents = "none";
+  } else if (startInputContainer.style.opacity == 1) {
+    startInputContainer.style.pointerEvents = "auto";
+  }
+  if (endInputContainer.style.pointerEvents == "auto") {
+    endInputContainer.style.pointerEvents = "none";
+  } else if (endInputContainer.style.opacity == 1) {
+    endInputContainer.style.pointerEvents = "auto";
+  }
 }
 createGrid(startRow, startCol, endRow, endCol, numRows, numCols);
